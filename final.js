@@ -1,5 +1,5 @@
-// let demoMap = L.Wrld.map('final', 'AIzaSyCzuXTzHxqoPOVsEQGIRqPbZZ8__0Yyu9o')
-let map = L.Wrld.map('finalmap', 'AIzaSyCzuXTzHxqoPOVsEQGIRqPbZZ8__0Yyu9o', {
+// let demoMap = L.Wrld.map('final', '56c1ebf0bd85d63a2da3150e9482f8bf')
+let map = L.Wrld.map('finalmap', '56c1ebf0bd85d63a2da3150e9482f8bf', {
   center: [29.95, -90.07],
   zoom: 15
 })

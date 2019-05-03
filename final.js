@@ -1,14 +1,14 @@
-let stateMap = L.map('finalmap').setView([90.07570266723633, 29.957909116687652], 2)
+let stateMap = L.map('finalmap').setView([29.9511, 90.0715], 3)
 let basemapUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 L.tileLayer(basemapUrl).addTo(stateMap)
-let grayBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(stateMap)
 let streetsBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}').addTo(stateMap)
+let grayBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(stateMap)
 let basemaps = {
   'Streets': streetsBasemap,
   'Gray canvas': grayBasemap
 }
 L.control.layers(basemaps).addTo(stateMap)
-let point = L.layerGroup().addTo(stateMap)
+let pointLayer = L.layerGroup().addTo(stateMap)
 let bikeShareStationsUrl = 'https://github.com/ktayl86/Finalproject/blob/master/data/Bike_Share_Stations.geojson'
 jQuery.getJSON(bikeShareStationsUrl, function (data) {
   let pointStyle = function (feature) {
@@ -25,7 +25,7 @@ jQuery.getJSON(bikeShareStationsUrl, function (data) {
     let name = feature.properties.Station_Name
     let bikeracks = feature.properties.Number_of_Rack_Spaces
     layer.bindPopup(name + 'Bike Station ' + bikeracks)
-    point.addLayer(layer)
+    pointLayer.addLayer(layer)
   }
   let geojsonOptions = {
     style: pointStyle,

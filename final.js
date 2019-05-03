@@ -1,6 +1,6 @@
 function init () {
-  // let demoMap = L.Wrld.map('finalmap', '4136c2a4-8321-4145-814e-11268ee20de6')
-  let demoMap = L.Wrld.map('finalmap', '4136c2a4-8321-4145-814e-11268ee20de6', {
+  // let demoMap = L.Wrld.map('finalmap', '4136c2a483214145814e11268ee20de6')
+  let demoMap = L.Wrld.map('finalmap', '4136c2a483214145814e11268ee20de6', {
     center: [29.95, -90.07],
     zoom: 15
   })

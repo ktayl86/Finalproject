@@ -1,35 +1,36 @@
-let stateMap = L.map('finalmap').setView([29.9511, -90.0715], 2)
-let basemapUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-L.tileLayer(basemapUrl).addTo(stateMap)
-let streetsBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}').addTo(stateMap)
-let grayBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(stateMap)
-let basemaps = {
-  'Streets': streetsBasemap,
-  'Gray canvas': grayBasemap
+function init () {
+  // let demoMap = L.Wrld.map('final', 'AIzaSyCzuXTzHxqoPOVsEQGIRqPbZZ8__0Yyu9o')
+  let map = L.Wrld.map('finalmap', 'AIzaSyCzuXTzHxqoPOVsEQGIRqPbZZ8__0Yyu9o', {
+    center: [29.95, -90.07],
+    zoom: 15
+  })
+  map.themes.setWeather(L.Wrld.themes.weather.Clear)
+  map.themes.setTime(L.Wrld.themes.time.Day)
+  let bikeShareStationUrl = 'https://github.com/ktayl86/Finalproject/blob/master/data/Bike_Share_Stations.geojson'
+  // jQuery.getJSON(geojsonUrl, function (geojsonData) {
+  //   L.geoJSON(geojsonData).addTo(demoMap)
+  // })
+  jQuery.getJSON(bikeShareStationUrl, function (geojsonData) {
+    L.geoJSON(geojsonData, {
+      onEachFeature: createPopup
+    }).addTo(map)
+  })
+  let createPopup = function (feature, layer) {
+    layer.bindPopup(feature.properties.Station_Name)
+  }
+  jQuery('#jackson-square').on('click', function () {
+    map.setView([29.957, -90.063], 17, {
+      headingDegrees: -45,
+      animate: true,
+      durationSeconds: 3
+    })
+  })
+  jQuery('#lafayette-square').on('click', function () {
+    map.setView([29.949, -90.07], 17, {
+      headingDegrees: 0,
+      animate: true,
+      durationSeconds: 3
+    })
+  })
 }
-L.control.layers(basemaps).addTo(stateMap)
-let pointLayer = L.layerGroup().addTo(stateMap)
-let bikeShareStationsUrl = 'https://github.com/ktayl86/Finalproject/blob/master/data/Bike_Share_Stations.geojson'
-jQuery.getJSON(bikeShareStationsUrl, function (data) {
-  let pointStyle = function (feature) {
-    let bikeracks = feature.properties.Number_of_Rack_Spaces // get the current number of bike rack spaces attribute
-    let pointColor = '#00B9F7' // let the initial color be a darker blue
-    if (bikeracks < 15) { pointColor = '#001DF7' } // if the number of bike rack spaces is higher than the average, color it a lighter blue
-    return {
-      color: pointColor, // use the color variable above for the value
-      weight: 1,
-      fillOpacity: 0.2
-    }
-  }
-  let onEachFeature = function (feature, layer) {
-    let name = feature.properties.Station_Name
-    let bikeracks = feature.properties.Number_of_Rack_Spaces
-    layer.bindPopup(name + 'Bike Station ' + bikeracks)
-    pointLayer.addLayer(layer)
-  }
-  let geojsonOptions = {
-    style: pointStyle,
-    onEachFeature: onEachFeature
-  }
-  L.geoJSON(data, geojsonOptions).addTo(stateMap)
-})
+window.addEventListener('load', init)

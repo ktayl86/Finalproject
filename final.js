@@ -8,7 +8,7 @@ let basemaps = {
   'Gray canvas': grayBasemap
 }
 L.control.layers(basemaps).addTo(stateMap)
-let pointLayer = L.layerGroup().addTo(stateMap)
+let point = L.layerGroup().addTo(stateMap)
 let bikeShareStationsUrl = 'https://github.com/ktayl86/Finalproject/blob/master/data/Bike_Share_Stations.geojson'
 jQuery.getJSON(bikeShareStationsUrl, function (data) {
   let pointStyle = function (feature) {
@@ -25,7 +25,7 @@ jQuery.getJSON(bikeShareStationsUrl, function (data) {
     let name = feature.properties.Station_Name
     let bikeracks = feature.properties.Number_of_Rack_Spaces
     layer.bindPopup(name + 'Bike Station ' + bikeracks)
-    pointLayer.addLayer(layer)
+    point.addLayer(layer)
   }
   let geojsonOptions = {
     style: pointStyle,
